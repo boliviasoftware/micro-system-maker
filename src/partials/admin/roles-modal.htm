@@ -1,0 +1,103 @@
+<div class="modal-header">
+	<h3 class="modal-title">
+		Admin role
+	</h3>
+</div>
+<div class="modal-body">
+	<uib-tabset>
+		<uib-tab heading="Basic Data">
+			<!-- TODO: autofocus on save button validation -->
+			<!-- TODO: asignar usuarios a admin -->
+			<h4>
+				Basic data
+			</h4>
+			<form name="rolesForm" ng-submit="saveRole()" autocomplete="false" id="roles-form" ng-if="groups">
+				<auto:fields fields="schema" data="formModel" options="options"></auto:fields>
+			</form>
+		</uib-tab>
+		<uib-tab heading="Users">
+			<h4>
+				Assign or remove users from the group
+			</h4>
+			<div class="row">
+				<div class="col-md-5">
+					<h5 class="text-center">
+						Unassigned users
+					</h5>
+					<select ng-model="groups.left" multiple="multiple" class="form-control" size="10">
+						<option ng-repeat="it in groups.unassigned" value="{{ it.id }}">
+							{{ it.firstName }} {{ it.lastName }}
+						</option>
+					</select>
+				</div>
+				<div class="col-md-1">
+					<br/>
+					<a class="btn btn-sm btn-primary" ng-click="manageUsers(true)" ng-disabled="!groups.right.length">
+						<span class="glyphicon glyphicon-chevron-left" aria-hidden="true">
+						</span>
+					</a>
+					<br/>
+					<br/>
+					<a class="btn btn-sm btn-primary" ng-click="manageUsers()" ng-disabled="!groups.left.length">
+						<span class="glyphicon glyphicon-chevron-right" aria-hidden="true">
+						</span>
+					</a>
+				</div>
+				<div class="col-md-5">
+					<h5 class="text-center">
+						Assigned users
+					</h5>
+					<select ng-model="groups.right" multiple="multiple" class="form-control" size="10">
+						<option ng-repeat="it in groups.assigned" value="{{ it.id }}">
+							{{ it.firstName }} {{ it.lastName }}
+						</option>
+					</select>
+				</div>
+			</div>
+		</uib-tab>
+	</uib-tabset>
+</div>
+<div class="modal-footer">
+	<button type="submit" class="btn btn-default" ng-class="{'btn-primary':rolesForm.$valid}" form="roles-form">
+		Save role
+	</button>
+	<button class="btn btn-success" type="button" ng-click="close()">
+		Close
+	</button>
+</div>
+
+<!-- 
+<table class="table table-condensed table-hover table-bordered">
+	<thead>
+
+		<tr>
+			<th rowspan="2">&nbsp;</th>
+			<th ng-repeat="it in roles" class="text-center" colspan="3">{{ it.role }}</th>
+		</tr>
+		<tr>
+			<tr>
+				<th>&nbsp;</th>
+				<th style="padding: 0" colspan="3" ng-repeat="rol in roles">
+					<table class="table-bordered table-condensed" width="100%">
+						<thead>
+							<tr>
+								<th ng-repeat="val in crud" class="text-center" uib-tooltip="{{ val }}">{{ val[0] }}</th>
+							</tr>
+						</thead>
+					</table>
+				</th>
+			
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="it in forms">
+			<td><strong>{{ it.name }}</strong></td>
+			<td><strong>{{ it.name }}</strong></td>
+			<td><strong>{{ it.name }}</strong></td>
+			<td><strong>{{ it.name }}</strong></td>
+			<td><strong>{{ it.name }}</strong></td>
+			<td><strong>{{ it.name }}</strong></td>
+		</tr>
+	</tbody>
+</table>
+ -->

@@ -1,0 +1,29 @@
+<admin-header></admin-header>
+<div class="container">
+	<div>
+		<h4>Users<a ng-click="addRecord()" class="btn btn-primary btn-sm pull-right">Add user</a></h4></div>
+	<table class="table table-hover table-bordered" st-table="displayedUsers" st-safe-src="users">
+		<thead>
+			<tr>
+				<th>First Name</th>
+				<th>Last Name</th>
+				<th>User Name</th>
+				<th>Email</th>
+				<th style="width:10%">Operations</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="item in displayedUsers">
+				<td>{{ item.firstName }}</td>
+				<td>{{ item.lastName }}</td>
+				<td>{{ item.userName }}</td>
+				<td>{{ item.email }}</td>
+				<td class="text-center">
+					<a ng-click="viewRecord(item.id)" class="btn btn-success btn-xs"><span class="glyphicon glyphicon-search" aria-hidden="true" uib-tooltip="View"></span></a>
+					<a ng-click="editRecord(item.id)" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-pencil" aria-hidden="true" uib-tooltip="Edit"></span></a>
+					<a ng-click="deleteRecord(item.id)" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove" aria-hidden="true" uib-tooltip="Delete"></span></a>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>

@@ -1,0 +1,3 @@
+*.sublime-*
+vendor/
+composer.lock

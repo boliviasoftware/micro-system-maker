@@ -1,0 +1,30 @@
+<admin-header></admin-header>
+<div class="container">
+	<div class="row">
+		<h1 class="text-center title"><span class="strong">{{ base.name }}</span> <small class="font-light">{{ base.description }}</small></h1>
+		<ul class="list-inline pull-right">
+			<li><a class="btn btn-info" ng-click="exportToCsv()">Export to CSV</a></li>
+			<!-- <li><a class="btn btn-info" ng-click="exportToMysql()">Export to MySql</a></li> -->
+			<li><a class="btn btn-primary" ng-click="manageRecord()">Add record</a></li>
+		</ul>
+		<table st-table="displayedData" st-safe-src="data" class="table table-hover table-bordered">
+			<thead>
+				<tr>
+					<th style="width:4%">#</th>
+					<th ng-repeat="item in base.data">{{ item.label }}</th>
+					<th style="width:10%">Operations</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="item in displayedData">
+					<td>{{ $index + 1 }}</td>
+					<td ng-repeat="conf in base.data">
+						<span ng-if="conf.type != 'date'">{{ item[conf.property] }}</span>
+						<span ng-if="conf.type == 'date'">{{ item[conf.property] | date: ((conf.fdate) ? conf.fdate : 'mediumDate') }}</span>
+					</td>
+					<td class="text-center"><a class="btn btn-primary btn-xs" ng-click="manageRecord(item.id)" uib-tooltip="edit"><span class="glyphicon glyphicon-pencil" aria-hidden="true" uib-tooltip="Edit"></span></a> <a class="btn btn-danger btn-xs" ng-click="deleteRecord(item.id)" uib-tooltip="delete"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>

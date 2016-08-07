@@ -1,0 +1,35 @@
+<admin-header></admin-header>
+<div class="container">
+	<div class="row">
+		<div class="col-md-10">
+			<h2>Pages List</h2>
+		</div>
+		<div class="col-md-2">
+			<a class="btn btn-primary" ui-sref="admin.fpagesEdit({id:'add'})">Add page</a>
+		</div>
+	</div>
+	<table st-table="displayedPages" st-safe-src="forms" class="table table-hover table-bordered">
+		<thead>
+			<tr>
+				<th>Title</th>
+				<th>Description</th>
+				<th>Type of view</th>
+				<th style="width: 10%">Status</th>
+				<th style="width:10%">Operations</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="item in displayedPages">
+				<td>{{ item.title }}</td>
+				<td>{{ item.description }}</td>
+				<td>{{ item.tview }}</td>
+				<td class="text-center"><span class="label" ng-class="{'label-success': item.status, 'label-danger': !item.status}">{{ (item.status) ? 'Enabled' : 'Disabled' }}</span></td>
+				<td class="text-center">
+					<a ui-sref="admin.fpagesEdit({id:item.id})" class="btn btn-xs btn-primary"><span class="glyphicon glyphicon-pencil" aria-hidden="true" uib-tooltip="Edit"></span></a>
+					<a ng-click="deleteRecord(item.id)" class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-remove" aria-hidden="true" uib-tooltip="Delete"></span></a>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+

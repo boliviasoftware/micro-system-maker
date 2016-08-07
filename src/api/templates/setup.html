@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Micro System Maker - System setup</title>
+	<link rel="stylesheet" href="../assets/css/vendors.css">
+	<style type="text/css">
+		body {
+			background: #D9D9D9
+		}	
+		#container {
+			margin-top: 30px;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6 col-md-offset-3">
+				<div class="well" id="container">
+					<div>
+						<h3 class="text-center">Micro System Maker initial setup</h3>
+						<repeat group="{{ @messages }}" value="{{ @message }}">
+							<div class="alert alert-danger" role="alert">{{ @message }}</div>
+						</repeat>
+						<form action="setup" method="post">
+							<fieldset>
+								<legend>Admin user data:</legend>
+								<div class="form-group">
+									<label for="admin-email">Admin email</label>
+									<input name="admin-email" type="email" class="form-control" id="admin-email" value="{{ @values['admin-email'] }}" placeholder="admin-email">
+								</div>
+								<div class="form-group">
+									<label for="password">Admin password</label>
+									<input name="password" type="password" class="form-control" id="password" value="{{ @values['password'] }}" placeholder="Password" autocomplete="nope">
+								</div>
+								<div class="form-group">
+									<label for="repeat-password">Repeat admin password</label>
+									<input name="repeat-password" type="password" class="form-control" id="repeat-password" value="{{ @values['repeat-password'] }}" placeholder="Password" autocomplete="nope">
+								</div>
+								<div class="form-group">
+									<label for="theme">System Theme</label>
+									<select name="theme" class="form-control" id="theme">
+										<option value="">Select one option...</option>
+										<repeat group="{{ array('basic') }}" value="{{ @theme }}">
+											<option value="{{ @theme }}">{{ @theme }} </option>
+										</repeat>
+									</select>
+								</div>
+							</fieldset>
+							<fieldset>
+								<legend>Basic data:</legend>
+								<div class="form-group">
+									<label for="site-name">Site name</label>
+									<input name="site-name" type="text" class="form-control" id="site-name" value="{{ @values['site-name'] }}" placeholder="Site name">
+								</div>
+								<!-- <div class="form-group">
+									<label for="disqus">Disqus user</label>
+									<input name="disqus" type="text" class="form-control" id="disqus" value="{{ @values['disqus'] }}" placeholder="Site name">
+								</div> -->
+							</fieldset>
+							<p class="text-center">
+								<button type="submit" class="btn btn-primary">Save configuration</button>
+							</p>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>

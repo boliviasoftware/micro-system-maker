@@ -1,0 +1,52 @@
+<admin-header>
+</admin-header>
+<div class="container-fluid">
+	<h4 class="text-center">
+		Permissions
+	</h4>
+	<div class="table-responsive">
+		<table  class="table table-bordered table-condensed">
+			<thead>
+				<tr>
+					<th style="width: 12%;">&nbsp;</th>
+					<th ng-repeat="val in roles" colspan="4" class="text-center">
+						<strong>
+							{{ val.role }}
+						</strong>
+					</th>
+				</tr>
+				<tr>
+					<th>Sections/forms</th>
+					<th ng-repeat-start="v in roles" ng-hide="true"></th>
+					<!-- <th ng-repeat-start="c in crud" title="{{ c }}" class="text-center"> -->
+					<th ng-repeat="c in crud" title="{{ c }}" class="text-center">
+						{{ c[0] }}
+					</th>
+					<!-- <th ng-repeat-end ng-hide="true"></th> -->
+					<th ng-repeat-end ng-hide="true"></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="val in matrix">
+					<td>
+						<strong>
+							{{ forms[$index].name }}
+						</strong>
+						<!-- <pre>{{ forms[$index] }}</pre> -->
+					</td>
+					<td ng-repeat-start="v1 in val" ng-hide="true">	</td>
+					<td ng-repeat="v2 in v1" class="text-center">
+						<!-- <pre>{{ v2|json }}</pre> -->
+						<input type="checkbox" ng-model="v2.s"/>
+					</td>
+					<td ng-repeat-end ng-hide="true"></td>
+				</tr>
+			</tbody>
+		</table>
+		<p class="text-center"><a ng-click="savePermission()" class="btn btn-primary">Save changes</a></p>
+		<!-- <pre>{{ formModel.initialForms }}</pre> -->
+		<!-- <pre>{{ formModel.initialRoles }}</pre> -->
+		<!-- <pre>{{ matrix | json}}</pre> -->
+		<!-- <pre>{{ formModel.initialRoles }}</pre> -->
+	</div>
+</div>

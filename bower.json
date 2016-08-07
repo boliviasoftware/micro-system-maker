@@ -1,0 +1,35 @@
+{
+  "name": "angular-fatfree",
+  "version": "1.0.0",
+  "authors": [
+    "abel <abelgalloruiz@gmail.com>"
+  ],
+  "moduleType": [
+    "globals"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "vendors",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.4.8",
+    "angular-autoFields-bootstrap": "~2.1.8",
+    "angular-bootstrap": "~0.14.3",
+    "angular-loading-bar": "~0.8.0",
+    "angular-smart-table": "~2.1.6",
+    "angular-ui-router": "~0.2.15",
+    "angular-xeditable": "~0.1.9",
+    "bootstrap": "~3.3.6",
+    "lodash": "~4.6.1",
+    "restangular": "~1.5.2",
+    "angular-ipsum": "~0.0.4"
+  },
+  "resolutions": {
+    "lodash": "~4.6.1"
+  }
+}

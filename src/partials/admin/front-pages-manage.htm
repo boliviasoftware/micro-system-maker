@@ -1,0 +1,161 @@
+<admin-header></admin-header>
+<div class="container-fluid" id="page-manager">
+	<div class="row-fluid">
+		<div class="col-md-3">
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					<h3 class="panel-title">Page propierties</h3>
+				</div>
+				<div class="panel-body">
+					<form name="fpageForm" ng-submit="savePage()" id="front-page-form">
+						<auto:fields fields="schema" data="formModel" options="options"></auto:fields>
+					</form>
+					<p class="text-center">
+						<button type="submit" ng-disabled="fpageForm.$waiting" class="btn btn-primary" form="front-page-form">Save page</button>
+					</p>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-6">
+			<!-- <pre>{{ configOptions | json }}</pre> -->
+			<div ng-switch="formModel.tview" ng-if="items.length">
+				<div ng-switch-when="table" id="table-view">
+					<h4 class="text-center">{{ (formModel.title)? formModel.title : 'Table View' }}</h4>
+					<table class="table table-condensed table-hover table-bordered">
+						<thead>
+							<tr>
+								<th ng-repeat="item in items">{{ getLabel(item.fieldId) }}</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="fake in [1,2,3]">
+								<td ng-repeat="item in items"><span ipsum="10w"></span></td>
+							</tr>
+							<tr>
+								<td ng-repeat="item in items" class="text-center">
+									<a ng-click="removeField($index)" class="btn btn-danger btn-xs" uib-tooltip="Delete field"><span class="glyphicon glyphicon-remove"></span></a>
+									<a class="btn btn-primary btn-xs" ng-click="moveField($index,true)" ng-hide="!$index"><span class="glyphicon glyphicon-menu-left" uib-tooltip="Move left"></span></a>
+									<a class="btn btn-primary btn-xs" ng-click="moveField($index)" ng-hide="items.length-1==$index"><span class="glyphicon glyphicon-menu-right" uib-tooltip="Move right"></span></a>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div ng-switch-when="form" id="form-view">
+					<h4 class="text-center">{{ (formModel.title)? formModel.title : 'Form View' }}</h4>
+					<div ng-repeat="item in items" class="cursor-pointer content" ng-click="focusField($index)">
+						<div ng-include src="'pageFormView.htm'"></div>
+						<div ng-include src="'pageEditButtons.htm'"></div>
+					</div>
+				</div>
+				<div ng-switch-when="row" id="row-view">
+					<h4 class="text-center">{{ (formModel.title)? formModel.title : 'Row View' }}</h4>
+					<div ng-repeat="item in items" class="cursor-pointer content" ng-click="focusField($index)">
+						<div ng-include src="'pageRowView.htm'"></div>
+						<div ng-include src="'pageEditButtons.htm'"></div>
+					</div>
+				</div>
+				<div ng-switch-when="custom" id="custom-view">
+					<h4 class="text-center">{{ (formModel.title) ? formModel.title : 'Custom View' }}</h4>
+					<div ng-repeat="item in items" class="cursor-pointer content" ng-click="focusField($index)" ng-switch="item.fieldView">
+						<div ng-switch-when="row">
+							<div ng-include src="'pageRowView.htm'"></div>
+						</div>
+						<div ng-switch-when="form">
+							<div ng-include src="'pageFormView.htm'"></div>
+						</div>
+						<div ng-switch-default>
+							<div ng-include src="'pageFormView.htm'"></div>
+						</div>
+						<div ng-include src="'pageEditButtons.htm'"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-3">
+			<div ng-if="formModel.form">
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						<h3 class="panel-title">Add field</h3>
+					</div>
+					<div class="panel-body">
+						<div class="input-group">
+							<select ng-options="item.id as item.label for item in selectedForm.data" class="form-control" ng-model="configOptions.selField">
+								<option value="">Select one field...</option>
+							</select>
+							<span class="input-group-btn">
+								<button class="btn btn-primary" type="button" ng-click="addField()" uib-tooltip="Add field"><span class="glyphicon glyphicon-plus"></span></button>
+							</span>
+						</div>
+					</div>
+				</div>
+				<hr>
+				<div ng-switch=" formModel.tview" ng-if="selectedField && formModel.tview != 'table' ">
+					<div class="panel panel-primary">
+						<div class="panel-heading">
+							<h3 class="panel-title">Form Field config</h3>
+						</div>
+						<div class="panel-body">
+							<div>
+								<div class="checkbox">
+									<label>
+										<input type="checkbox" ng-model="selectedField.label"> <small>Visible Label?</small>
+									</label>
+								</div>
+								<label for="selected-type"><small>Alignment</small></label>
+								<select name="selected-type" ng-options="item as item for item in configOptions.align" ng-model="selectedField.align" class="form-control input-sm">
+									<option value="">Select one option...</option>
+								</select>
+								<label for="selected-font"><small>Font</small></label>
+								<select name="selected-font" id="selected-font" ng-options="item.class as item.label for item in configOptions.fonts" ng-model="selectedField.font" class="form-control input-sm">
+									<option value="">Select one option...</option>
+								</select>
+								<label for="selected-font-size"><small>Font Size</small></label>
+								<select name="selected-font-size" id="selected-font-size" ng-options="item as (item + 'px') for item in configOptions.fontSize" ng-model="selectedField.fsize" class="form-control input-sm">
+									<option value="">Select one option...</option>
+								</select>
+								<div ng-if="formModel.tview=='custom'">
+									<label for="selected-display"><small>Display type</small></label>
+									<select name="selected-display" id="selected-display" ng-options="item as item for item in configOptions.fieldView" ng-model="selectedField.fieldView" class="form-control input-sm">
+										<option value="">Select one option...</option>
+									</select>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- Templates -->
+<script type="text/ng-template" id="pageEditButtons.htm">
+	<div class="text-center">
+		<ul class="list-inline">
+			<li>
+				<a ng-click="removeField($index)" class="btn btn-danger btn-xs" uib-tooltip="Delete field"><span class="glyphicon glyphicon-remove"></span></a>
+			</li>
+			<li>
+				<a class="btn btn-primary btn-xs" ng-click="moveField($index,true)" ng-hide="!$index"><span class="glyphicon glyphicon-menu-up" uib-tooltip="Move up"></span></a>
+			</li>
+			<li>
+				<a class="btn btn-primary btn-xs" ng-click="moveField($index)" ng-hide="items.length-1==$index"><span class="glyphicon glyphicon-menu-down" uib-tooltip="Move down"></span></a>
+			</li>
+		</ul>
+	</div>
+</script>
+<script type="text/ng-template" id="pageRowView.htm">
+	<div class="row">
+		<div class="col-md-4" ng-if="item.label">
+			<h3>{{ getLabel(item.fieldId) }}</h3>
+		</div>
+		<div ng-class="{ 'col-md-12': !item.label, 'col-md-8': item.label }">
+			<div ipsum="1p" class="{{ getRowClass(item) }}"></div>
+		</div>
+	</div>
+</script>
+<script type="text/ng-template" id="pageFormView.htm">
+	<h3 ng-if="item.label">{{ getLabel(item.fieldId) }}</h3>
+	<div ipsum="1p" class="{{ getRowClass(item) }}"></div>
+</script>
+

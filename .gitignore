@@ -1,0 +1,5 @@
+dist/
+node_modules/
+vendors/
+.sublime-gulp.cache
+src/api/db/

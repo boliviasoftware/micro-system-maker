@@ -1,0 +1,105 @@
+<admin-header></admin-header>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-2">
+			<div class="well well-sm">
+				<h4 class="text-center">Basic Details</h4>
+				<form name="basicForm" ng-submit="saveForm()">
+					<auto:fields fields="schema" data="formModel" options="options"></auto:fields>
+					<button type="submit" class="btn btn-default btn-lg btn-block" ng-class="{'btn-primary':basicForm.$valid}" tabindex="100">Save</button>
+				</form>
+			</div>
+		</div>
+		<div class="col-md-6">
+			<h4 class="text-center">Form Preview</h4>
+			<div class="well well-sm">
+				<form>
+					<div class="row vertical-align" ng-repeat="item in items" ng-click="focusField($index)">
+						<!-- {{ item.type }} -->
+						<div class="col-md-10">
+							<div class="form-group field-preview">
+
+								<label for="field-{{ item.id }}" ng-if="item.type != 'checkbox'" class="cursor-pointer">{{ (item.label)? item.label : item.property }}</label>
+
+								<input type="text" ng-model="fakeModel[item.property]" class="form-control" id="field-{{ item.id }}" ng-if="item.type == 'text'" placeholder="{{ (item.label) ? item.label : item.property }}" uib-tooltip="{{ item.help }}">
+								<input type="number" ng-model="fakeModel[item.property]" class="form-control" id="field-{{ item.id }}" ng-if="item.type == 'number'" placeholder="{{ (item.label) ? item.label : item.property }}" uib-tooltip="{{ item.help }}">
+								<input type="email" ng-model="fakeModel[item.property]" class="form-control" id="field-{{ item.id }}" ng-if="item.type == 'email'" placeholder="{{ (item.label) ? item.label : item.property }}" uib-tooltip="{{ item.help }}">
+
+								<textarea class="form-control" rows="3" ng-model="fakeModel[item.property]" id="field-{{ item.id }}" ng-if="item.type == 'textarea'" placeholder="{{ (item.label) ? item.label : item.property }}" uib-tooltip="{{ item.help }}"></textarea>
+
+								<div class="checkbox" ng-if="item.type == 'checkbox'">
+									<label>
+										<input type="checkbox" ng-model="fakeModel[item.property]" uib-tooltip="{{ item.help }}"> {{ (item.label)? item.label : item.property }}
+									</label>
+								</div>
+
+								<select class="form-control" ng-options="item as 'Value' + item for item in [1,2,3,4,5]" ng-model="fakeModel[item.property]" id="field-{{ item.id }}" ng-if="item.type == 'select'" uib-tooltip="{{ item.help }}">
+									<option value="">Select one option...</option>
+								</select>
+
+								<p class="input-group" ng-if="item.type == 'date'">
+									<input type="text" class="form-control" uib-datepicker-popup="yyyy/MM/dd" ng-model="fakeModel[item.property]" is-open="fakeModel['opened'+item.id]" datepicker-options="dateOptions" ng-required="true" close-text="Close" placeholder="{{ (item.label) ? item.label : item.property }}" uib-tooltip="{{ item.help }}" ng-click="fakeModel['opened'+item.id] = !fakeModel['opened'+item.id]" />
+									<span class="input-group-btn">
+										<button type="button" class="btn btn-default" ng-click="fakeModel['opened'+item.id] = !fakeModel['opened'+item.id]"><i class="glyphicon glyphicon-calendar"></i></button>
+									</span>
+								</p>
+
+							</div>
+						</div>
+						<div class="col-md-1">
+							<span class="cursor-pointer glyphicon glyphicon-menu-down" ng-click="moveField($index)" title="DOWN" aria-hidden="true" ng-hide="items.length-1==$index"></span>
+							<span class="cursor-pointer glyphicon glyphicon-menu-up" ng-click="moveField($index,1)" title="UP" aria-hidden="true" ng-hide="!$index"></span>
+						</div>
+						<div class="col-md-1">
+							<span class="glyphicon glyphicon-remove cursor-pointer" title="Remove field" aria-hidden="true" ng-click="removeField($index)"></span>
+						</div>
+					</div>
+				</form>
+				<!-- <pre>{{ items|json }}</pre> -->
+				<!-- <pre>{{ fakeModel|json }}</pre> -->
+			</div>
+		</div>
+		<div class="col-md-4">
+			<div class="well well-sm">
+				<h4 class="text-center">Field Options</h4>
+				<p class="text-center">
+					<button type="button" class="btn btn-primary btn-xs" ng-click="addField()">Add field</button>
+				</p>
+				<div ng-if="selectedField">
+					<label for="selected-label"><small>Field Label</small></label>
+					<input class="form-control input-sm" type="text" placeholder="label" id="selected-label" ng-model="selectedField.label">
+
+					<label for="selected-type"><small>Type of field</small></label>
+					<select name="selected-type" ng-options="item.key as item.label for item in fieldTypes" ng-model="selectedField.type" class="form-control input-sm" ng-change="refreshFake()">
+						<option value="">Select one option...</option>
+					</select>
+
+					<div ng-if="selectedField.type == 'select'">
+						<label for="selected-dictionary"><small>Dictionary</small></label>
+						<select name="selected-dictionary" ng-options="item.uniqId as item.name for item in dictionaries" ng-model="selectedField.dictionary" class="form-control input-sm">
+							<option value="">Select one option...</option>
+						</select>
+					</div>
+
+					<div ng-if="selectedField.type == 'date'">
+						<label for="selected-fdate"><small>Date format</small></label>
+						<select name="selected-fdate" ng-options="item.key as item.label for item in datesFormats" ng-model="selectedField.fdate" class="form-control input-sm">
+							<option value="">Select one option...</option>
+						</select>
+					</div>
+
+					<label for="selected-help"><small>Tooltip</small></label>
+					<input class="form-control input-sm" type="text" placeholder="Tooltip" id="selected-help" ng-model="selectedField.help">
+
+					<label for="selected-description"><small>Description</small></label>
+					<textarea class="form-control" rows="2" id="selected-description" placeholder="description" ng-model="selectedField.description"></textarea>
+
+					<label for="selected-required"><small><input type="checkbox" ng-model="selectedField.attr.required">   Required Field?</small></label>
+
+					<!-- <pre>{{ dictionaries|json }}</pre> -->
+					<!-- <pre>{{ selectedField|json }}</pre> -->
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

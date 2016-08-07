@@ -1,0 +1,24 @@
+<admin-header></admin-header>
+<div class="container">
+	<div>
+		<h4>Dictionares<a ng-click="addRecord()" class="btn btn-primary btn-sm pull-right">Add Dictionary</a></h4></div>
+	<table class="table table-hover table-bordered" st-table="displayedDictionaries" st-safe-src="dictionaries">
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Quantity</th>
+				<th style="width:10%">Operations</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="item in displayedDictionaries">
+				<td>{{ item.name }}</td>
+				<td>{{ item.qty }}</td>
+				<td class="text-center">
+					<a ng-click="editRecord(item.id)" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-pencil" aria-hidden="true" uib-tooltip="Edit"></span></a>
+					<a ng-click="deleteRecord(item.id)" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove" aria-hidden="true" uib-tooltip="Delete"></span></a>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
